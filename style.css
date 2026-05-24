@@ -2,9 +2,9 @@
   /* ── BACKGROUNDS — carbono estratificado ── */
   --bg:       #080A0F;
   --bg-2:     #0D0F16;
-  --surface:  #0D0F16;
-  --surface2: #141720;
-  --surface3: #1B1E2A;
+  --surface:  #111420;
+  --surface2: #181c2a;
+  --surface3: #1e2235;
 
   /* ── ÂMBAR — protagonista ── */
   --amber:        #F59E0B;
@@ -22,9 +22,9 @@
   --violet-glow:  rgba(124,58,237,0.25);
 
   /* ── BORDAS — luz âmbar emitida ── */
-  --border:      rgba(245,158,11,0.10);
-  --border-soft: rgba(255,255,255,0.05);
-  --border-mid:  rgba(245,158,11,0.22);
+  --border:      rgba(245,158,11,0.14);
+  --border-soft: rgba(255,255,255,0.07);
+  --border-mid:  rgba(245,158,11,0.28);
   --border-glow: rgba(245,158,11,0.40);
 
   /* ── TIPOGRAFIA ── */
@@ -37,8 +37,8 @@
   --danger:  #F87171;
 
   /* ── INPUTS ── */
-  --input-bg:     rgba(8,10,15,0.80);
-  --input-border: rgba(245,158,11,0.18);
+  --input-bg:     rgba(18, 22, 34, 0.90);
+  --input-border: rgba(245,158,11,0.24);
   --input-focus:  var(--amber);
 
   /* ── GRADIENTES ── */
