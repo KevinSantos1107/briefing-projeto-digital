@@ -732,7 +732,7 @@ function gerarPDF() {
   doc.text('BRIEFING — PROJETO DIGITAL', margin, 17);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.setTextColor(122, 122, 154);
+  doc.setTextColor(155, 138, 170);
   const now = new Date();
   doc.text(`Gerado em ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`, margin, 24);
   y = 36;
@@ -751,9 +751,10 @@ function gerarPDF() {
 
     checkPage(16 + secLines.length * 5.5);
 
-    doc.setFillColor(255, 77, 109);
+    // Section header — amber background
+    doc.setFillColor(245, 158, 11);
     doc.roundedRect(margin, y, maxW, 8, 2, 2, 'F');
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(19, 13, 24);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8.5);
     doc.text(s.title.toUpperCase(), margin + 4, y + 5.5);
@@ -761,7 +762,7 @@ function gerarPDF() {
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
-    doc.setTextColor(40, 40, 60);
+    doc.setTextColor(50, 40, 65);
 
     secLines.forEach(line => {
       checkPage(6);
@@ -770,22 +771,22 @@ function gerarPDF() {
         const labelPart = line.substring(0, colonIdx + 2);
         const valuePart = line.substring(colonIdx + 2);
         doc.setFont('helvetica', 'bold');
-        doc.setTextColor(30, 30, 50);
+        doc.setTextColor(155, 93, 229); // violet para os labels
         doc.text(labelPart, margin + 3, y);
         const labelW = doc.getTextWidth(labelPart);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(70, 70, 90);
+        doc.setTextColor(50, 40, 65);
         doc.text(valuePart, margin + 3 + labelW, y);
       } else {
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(70, 70, 90);
+        doc.setTextColor(50, 40, 65);
         doc.text(line, margin + 3, y);
       }
       y += 5.5;
     });
 
     y += 4;
-    doc.setDrawColor(220, 220, 235);
+    doc.setDrawColor(245, 158, 11, 0.3); // linha divisória em âmbar suave
     doc.line(margin, y, margin + maxW, y);
     y += 6;
   });
@@ -794,7 +795,7 @@ function gerarPDF() {
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFontSize(7.5);
-    doc.setTextColor(180, 180, 200);
+    doc.setTextColor(155, 138, 170);
     doc.text(`Página ${i} de ${totalPages}`, pageW - margin, pageH - 8, { align: 'right' });
   }
 
