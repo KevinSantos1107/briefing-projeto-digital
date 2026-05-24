@@ -106,13 +106,6 @@ function closeMobNav() {
   document.body.style.overflow = '';
 }
 
-function closeMobNav() {
-  mobNavOpen = false;
-  document.getElementById('mobNavBtn').classList.remove('open');
-  document.getElementById('mobNavOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
 // ── SWIPE TO CLOSE DRAWER ──
 function setupDrawerSwipe() {
   const drawer = document.querySelector('.mob-nav-drawer');
@@ -633,11 +626,50 @@ function formatarTexto(data) {
   return out;
 }
 
+// ── WHATSAPP FORMATTING (emojis + markdown nativo do WhatsApp) ──
+const wppSectionEmojis = {
+  '1. Informações Gerais':       '🏢',
+  '2. Objetivo':                 '🎯',
+  '3. Sobre a Empresa':          '💼',
+  '4. Público-Alvo':             '👥',
+  '5. Oferta e Conversão':       '💡',
+  '6. Autoridade e Prova Social':'⭐',
+  '7. Design e Referências':     '🎨',
+  '8. Conteúdo':                 '📸',
+  '9. Integrações':              '🔗',
+  '10. Informações Técnicas':    '⚙️',
+  '11. Observações':             '📝',
+};
+
+function formatarTextoWpp(data) {
+  let out = `✦ *BRIEFING — PROJETO DIGITAL*\n`;
+  out += `${'─'.repeat(32)}\n\n`;
+
+  sectionsForOutput.forEach(s => {
+    let secLines = [];
+    s.keys.forEach(k => {
+      if (data[k] !== undefined) {
+        const val = Array.isArray(data[k]) ? data[k].join(', ') : data[k];
+        secLines.push(`  ▸ *${labels[k] || k}:* ${val}`);
+      }
+    });
+    if (!secLines.length) return;
+
+    const emoji = wppSectionEmojis[s.title] || '•';
+    out += `${emoji} *${s.title.toUpperCase()}*\n`;
+    out += secLines.join('\n') + '\n\n';
+  });
+
+  out += `${'─'.repeat(32)}\n`;
+  out += `_Briefing gerado em ${new Date().toLocaleDateString('pt-BR')}_`;
+  return out;
+}
+
 // ── ACTIONS ──
 function gerarResumo() {
   if (!ensureValid()) return;
   const data = coletarDados();
-  const txt = formatarTexto(data);
+  const txt = formatarTextoWpp(data);
   document.getElementById('modalContent').textContent = txt;
   document.getElementById('modalOverlay').classList.add('open');
 }
@@ -665,13 +697,13 @@ function copiarModal() {
 function copiarTudo() {
   if (!ensureValid()) return;
   const data = coletarDados();
-  const txt = formatarTexto(data);
+  const txt = formatarTextoWpp(data);
   navigator.clipboard.writeText(txt).then(() => mostrarToast('Briefing copiado!'));
 }
 function enviarWhatsApp() {
   if (!ensureValid()) return;
   const data = coletarDados();
-  const txt = formatarTexto(data);
+  const txt = formatarTextoWpp(data);
   const encoded = encodeURIComponent(txt);
   window.open(`https://wa.me/${WPP_NUMBER}?text=${encoded}`, '_blank');
 }
