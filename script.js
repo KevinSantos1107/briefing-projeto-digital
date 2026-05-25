@@ -973,7 +973,12 @@ function setupVisualViewport() {
 
   function update() {
     const offsetBottom = window.innerHeight - (vv.offsetTop + vv.height);
-    document.documentElement.style.setProperty('--vvb', Math.max(0, offsetBottom) + 'px');
+    // Clamp entre 0 e 120px: previne overshoots durante scroll rápido,
+    // onde o visualViewport reporta valores transitórios exagerados
+    // enquanto a barra do browser ainda está animando.
+    // Nenhuma barra de navegação real ultrapassa ~100px.
+    const clamped = Math.min(Math.max(0, offsetBottom), 120);
+    document.documentElement.style.setProperty('--vvb', clamped + 'px');
   }
 
   vv.addEventListener('resize', update);
