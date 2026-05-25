@@ -963,6 +963,24 @@ function setupScrollEffects() {
   window.addEventListener('resize', updateScrollOffset, { passive: true });
 }
 
+// ── VISUAL VIEWPORT — corrige FAB quando barra do browser some/aparece ──
+// window.innerHeight = layout viewport (fixo, inclui área da barra)
+// visualViewport.height = o que o usuário realmente enxerga
+// A diferença é o offset que precisamos compensar no `bottom` do botão.
+function setupVisualViewport() {
+  const vv = window.visualViewport;
+  if (!vv) return; // fallback: CSS padrão continua funcionando
+
+  function update() {
+    const offsetBottom = window.innerHeight - (vv.offsetTop + vv.height);
+    document.documentElement.style.setProperty('--vvb', Math.max(0, offsetBottom) + 'px');
+  }
+
+  vv.addEventListener('resize', update);
+  vv.addEventListener('scroll', update);
+  update(); // valor inicial
+}
+
 // ── KEYBOARD SHORTCUT (Ctrl/Cmd+S) ──
 window.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
@@ -979,6 +997,7 @@ window.addEventListener('DOMContentLoaded', () => {
   buildSideNav();
   buildMobNav();
   setupZoomLock();
+  setupVisualViewport();
   setupDrawerSwipe();
   loadDraft();
   const wpp = document.querySelector('[name="whatsapp"]');
