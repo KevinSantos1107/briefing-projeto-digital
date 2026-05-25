@@ -982,7 +982,10 @@ function setupVisualViewport() {
   }
 
   vv.addEventListener('resize', update);
-  vv.addEventListener('scroll', update);
+  // Apenas 'resize' — dispara quando a barra do browser aparece/some.
+  // 'scroll' não deve ser usado aqui: ele dispara durante qualquer
+  // rolagem da página e faz vv.offsetTop variar transitoriamente,
+  // causando overshoots no cálculo mesmo sem barra nenhuma.
   update(); // valor inicial
 }
 
