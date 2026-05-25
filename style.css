@@ -361,7 +361,7 @@ header p {
 .mob-nav-btn {
   display: flex;
   position: fixed;
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--vvb, 0px) + 16px);
   right: max(16px, env(safe-area-inset-right, 0px));
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -376,7 +376,7 @@ header p {
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 28px rgba(0,0,0,0.50), 0 0 0 1px rgba(245,158,11,0.06);
-  transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s, bottom 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
 .mob-nav-btn:active { transform: translateZ(0) scale(0.93); }
