@@ -963,32 +963,6 @@ function setupScrollEffects() {
   window.addEventListener('resize', updateScrollOffset, { passive: true });
 }
 
-// ── VISUAL VIEWPORT — corrige FAB quando barra do browser some/aparece ──
-// window.innerHeight = layout viewport (fixo, inclui área da barra)
-// visualViewport.height = o que o usuário realmente enxerga
-// A diferença é o offset que precisamos compensar no `bottom` do botão.
-function setupVisualViewport() {
-  const vv = window.visualViewport;
-  if (!vv) return; // fallback: CSS padrão continua funcionando
-
-  function update() {
-    const offsetBottom = window.innerHeight - (vv.offsetTop + vv.height);
-    // Clamp entre 0 e 120px: previne overshoots durante scroll rápido,
-    // onde o visualViewport reporta valores transitórios exagerados
-    // enquanto a barra do browser ainda está animando.
-    // Nenhuma barra de navegação real ultrapassa ~100px.
-    const clamped = Math.min(Math.max(0, offsetBottom), 120);
-    document.documentElement.style.setProperty('--vvb', clamped + 'px');
-  }
-
-  vv.addEventListener('resize', update);
-  // Apenas 'resize' — dispara quando a barra do browser aparece/some.
-  // 'scroll' não deve ser usado aqui: ele dispara durante qualquer
-  // rolagem da página e faz vv.offsetTop variar transitoriamente,
-  // causando overshoots no cálculo mesmo sem barra nenhuma.
-  update(); // valor inicial
-}
-
 // ── KEYBOARD SHORTCUT (Ctrl/Cmd+S) ──
 window.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
@@ -1005,7 +979,6 @@ window.addEventListener('DOMContentLoaded', () => {
   buildSideNav();
   buildMobNav();
   setupZoomLock();
-  setupVisualViewport();
   setupDrawerSwipe();
   loadDraft();
   const wpp = document.querySelector('[name="whatsapp"]');
